@@ -2,12 +2,14 @@ namespace SearchSniffServer.Models;
 
 public class SniffSearchResponse
 {
-    public SniffSearchResponse(List<SniffModelResponse> responses)
+    public SniffSearchResponse(List<SniffModelResponse> responses, int total)
     {
         Responses = responses;
+        Total = total;
     }
 
     public List<SniffModelResponse> Responses { get; }
+    public int Total { get; }
 }
 
 public class SniffModelResponse

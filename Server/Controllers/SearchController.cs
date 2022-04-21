@@ -86,7 +86,7 @@ namespace Server.Controllers
                 SniffTime = r.StartTime,
                 Source = r.Source,
                 FileSize = r.FileSize
-            }).ToList()));
+            }).ToList(), (int)results.Total));
         }
     }
 }
