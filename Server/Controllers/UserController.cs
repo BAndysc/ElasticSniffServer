@@ -16,7 +16,7 @@ public class UserController : Controller
         this.randomService = randomService;
     }
     
-    [HttpPost(Name = "Upload")]
+    [HttpPost(Name = "UserAdd")]
     [Route("User/Add")]
     public async Task<IActionResult> AddUser(AddUserRequest request)
     {
