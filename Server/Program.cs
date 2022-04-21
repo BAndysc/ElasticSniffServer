@@ -6,6 +6,8 @@ using Server.Services.Elastic;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Configuration.AddEnvironmentVariables();
+
 // Add services to the container.
 var connstring = builder.Configuration["Database:connection"];
 builder.Services.AddDbContext<DatabaseContext>(options => options.UseMySql(connstring, ServerVersion.AutoDetect(connstring)));
