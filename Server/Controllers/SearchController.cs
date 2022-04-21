@@ -75,16 +75,16 @@ namespace Server.Controllers
                 }).ToArray());
             }).ToArray<ISearchRequestTerm>());
             
-            var results = await searchService.Search(searchRequest, 0, 100);
+            var results = await searchService.Search(searchRequest, request.Start, Math.Min(request.Count, 100));
             
-            return Ok(new SniffSearchResponse(results.Select(r => new SniffModelResponse()
+            return Ok(new SniffSearchResponse(results.Items.Select(r => new SniffModelResponse()
             {
                 Path   = r.Path,
                 PathInArchive = r.PathInArchive,
                 MD5 = r.MD5,
                 GameBuild = r.BuildVersion,
                 SniffTime = r.StartTime,
-                Source = r.MD5,
+                Source = r.Source,
                 FileSize = r.FileSize
             }).ToList()));
         }

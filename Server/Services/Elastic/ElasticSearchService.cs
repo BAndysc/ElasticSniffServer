@@ -101,7 +101,7 @@ public class ElasticSearchService : ISearchService
         client = factory.Factory();
     }
 
-    public async Task<IReadOnlyList<ISniff>> Search(ISniffSearchRequest request, int start, int count)
+    public async Task<SearchResults> Search(ISniffSearchRequest request, int start, int count)
     {
         var searchResponse = await client.SearchAsync<SniffElasticDocument>(s => s
             .From(start)
@@ -130,6 +130,6 @@ public class ElasticSearchService : ISearchService
                 return masterOr;
             }));
 
-        return searchResponse.Documents.ToList();
+        return new SearchResults(searchResponse.Documents.ToList(), searchResponse.Total);
     }
 }

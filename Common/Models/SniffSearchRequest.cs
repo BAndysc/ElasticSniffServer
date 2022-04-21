@@ -8,6 +8,8 @@ public class RequestSniffSearch
     }
 
     public List<List<Term>> Alternatives { get; set; }
+    public int Start { get; set; }
+    public int Count { get; set; }
 }
 
 public enum TermType
