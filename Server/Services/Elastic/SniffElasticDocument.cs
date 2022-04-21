@@ -15,6 +15,7 @@ public class SniffElasticDocument : ISniff
         MD5 = sniff.MD5;
         Source = sniff.Source;
         Path = sniff.Path;
+        FileSize = sniff.FileSize;
         IndexedOn = sniff.IndexedOn;
         PathInArchive = sniff.PathInArchive;
         spells = sniff.Spells.ToList();
@@ -30,6 +31,7 @@ public class SniffElasticDocument : ISniff
         texts = sniff.Texts.ToList();
     }
 
+    public ulong FileSize { get; set; }
     public ulong BuildVersion { get; set; }
     public DateTime IndexedOn { get; set; }
     public DateTime StartTime { get; set; }

@@ -83,7 +83,9 @@ namespace Server.Controllers
                 PathInArchive = r.PathInArchive,
                 MD5 = r.MD5,
                 GameBuild = r.BuildVersion,
-                SniffTime = r.StartTime
+                SniffTime = r.StartTime,
+                Source = r.MD5,
+                FileSize = r.FileSize
             }).ToList()));
         }
     }

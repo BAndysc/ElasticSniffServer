@@ -7,6 +7,7 @@ public interface ISniff
     string MD5 { get; }
     string Source { get; }
     
+    public ulong FileSize { get; }
     public ulong BuildVersion { get; }
     public DateTime IndexedOn { get; }
     public DateTime StartTime { get; }

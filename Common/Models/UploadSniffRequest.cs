@@ -6,6 +6,7 @@ public class UploadSniffRequest : ISniff
     public string? PathInArchive { get; set; }
     public string MD5 { get; set; } = "";
     public string Source { get; set; } = "";
+    public ulong FileSize { get; set; }
     public ulong BuildVersion { get; set; }
     public DateTime IndexedOn { get; set; }
     public DateTime StartTime { get; set; }
