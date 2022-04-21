@@ -5,7 +5,7 @@ namespace Server.Controllers;
 
 public abstract class Controller : ControllerBase
 {
-    private readonly IUserService userService;
+    protected readonly IUserService userService;
 
     public Controller(IUserService userService)
     {
