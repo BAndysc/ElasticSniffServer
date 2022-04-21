@@ -14,7 +14,7 @@ public class ElasticFactory : IElasticFactory
     
     public ElasticClient Factory()
     {
-        var settings = new ConnectionSettings(config["Elastic:cloudId"], new BasicAuthenticationCredentials(config["Elastic:user"], config["Elastic:password"])).DefaultIndex("sniffs");
+        var settings = new ConnectionSettings(config["ELASTIC_SNIFF_CLOUD_ID"] ?? config["Elastic:cloudId"], new BasicAuthenticationCredentials(config["ELASTIC_SNIFF_CLOUD_USER"] ?? config["Elastic:user"], config["ELASTIC_SNIFF_CLOUD_PASSWORD"] ?? config["Elastic:password"])).DefaultIndex("sniffs");
         return new ElasticClient(settings);
     }
 }
