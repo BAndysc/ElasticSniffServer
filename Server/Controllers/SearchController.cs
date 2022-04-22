@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using SearchSniffServer.Models;
+using Server.Database;
 using Server.Models;
 using Server.Models.SearchRequests;
 using Server.Services;
@@ -10,10 +12,14 @@ namespace Server.Controllers
     [Route("[controller]")]
     public class SearchController : Controller
     {
+        private readonly IDatabaseRepository databaseRepository;
         private readonly ISearchService searchService;
 
-        public SearchController(IUserService userService, ISearchService searchService) : base(userService)
+        public SearchController(IUserService userService, 
+            IDatabaseRepository databaseRepository,
+            ISearchService searchService) : base(userService)
         {
+            this.databaseRepository = databaseRepository;
             this.searchService = searchService;
         }
         
@@ -74,9 +80,13 @@ namespace Server.Controllers
                     }
                 }).ToArray());
             }).ToArray<ISearchRequestTerm>());
-            
+
+            GetHeaderUser(out var user);
+            var log = JsonConvert.SerializeObject(request);
+            await databaseRepository.Log(Request, $"User: {user}. Request: {log}");
+                
             var results = await searchService.Search(searchRequest, request.Start, Math.Min(request.Count, 100));
-            
+
             return Ok(new SniffSearchResponse(results.Items.Select(r => new SniffModelResponse()
             {
                 Path   = r.Path,

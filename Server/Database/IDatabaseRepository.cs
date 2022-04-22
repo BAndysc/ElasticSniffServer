@@ -6,5 +6,7 @@ namespace Server.Database
     {
         public Task AddUser(string name, string hash, bool admin);
         public Task<UserModel?> GetUser(string name);
+        Task Log(HttpRequest request, string text);
+        Task Log(string? ip, string method, string userAgent, string text, DateTime? date = null);
     }
 }

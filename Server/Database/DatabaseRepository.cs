@@ -13,6 +13,17 @@ namespace Server.Database
             scope = serviceProvider.CreateScope();
             databaseContext = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
         }
+        
+        public async Task Log(string? ip, string method, string userAgent, string text, DateTime? date = null)
+        {
+            await databaseContext.Logs.AddAsync( LogModel.Create(ip, method, text, userAgent, date));
+            await databaseContext.SaveChangesAsync();
+        }
+
+        public async Task Log(HttpRequest request, string text)
+        {
+            await Log(request.HttpContext.Connection.RemoteIpAddress?.ToString(), request.Method,request.Headers.UserAgent, text);
+        }
     
         public async Task AddUser(string name, string hash, bool admin)
         {

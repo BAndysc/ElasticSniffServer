@@ -11,6 +11,18 @@ public abstract class Controller : ControllerBase
     {
         this.userService = userService;
     }
+
+    protected bool GetHeaderUser(out string user)
+    {
+        if (Request.Headers.TryGetValue("x-user", out var u))
+        {
+            user = u;
+            return true;
+        }
+
+        user = "";
+        return false;
+    }
     
     protected async Task<bool> IsAuthorized()
     {
