@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 using Server.Database;
 using Server.Services;
@@ -39,6 +40,11 @@ if (app.Environment.IsDevelopment())
 //app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+});
 
 app.MapControllers();
 
