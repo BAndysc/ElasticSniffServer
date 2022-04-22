@@ -16,7 +16,7 @@ namespace Server.Database
         
         public async Task Log(string? ip, string method, string userAgent, string text, DateTime? date = null)
         {
-            await databaseContext.Logs.AddAsync( LogModel.Create(ip, method, text, userAgent, date));
+            await databaseContext.Logs.AddAsync( LogModel.Create(ip, method, text, userAgent ?? "", date));
             await databaseContext.SaveChangesAsync();
         }
 
