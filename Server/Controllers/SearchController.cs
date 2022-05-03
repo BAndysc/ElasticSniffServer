@@ -102,7 +102,7 @@ namespace Server.Controllers
 
             GetHeaderUser(out var user);
             var log = JsonConvert.SerializeObject(request);
-            await databaseRepository.Log(Request, $"User: {user}. Elastic: {elastic} Database: {db} Request: {log}");
+            await databaseRepository.Log(Request, $"User: {user}. Elastic: {elastic} ({elasticResults.Total}) Database: {db} {databaseResults.Total} Request: {log}");
             
             return Ok(new SniffSearchResponse(elasticResults.Items.Select(r => new SniffModelResponse()
             {
