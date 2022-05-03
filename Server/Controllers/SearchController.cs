@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using SearchSniffServer.Models;
@@ -5,6 +6,8 @@ using Server.Database;
 using Server.Models;
 using Server.Models.SearchRequests;
 using Server.Services;
+using Server.Services.DatabaseSearch;
+using Server.Services.Elastic;
 
 namespace Server.Controllers
 {
@@ -13,13 +16,19 @@ namespace Server.Controllers
     public class SearchController : Controller
     {
         private readonly IDatabaseRepository databaseRepository;
+        private readonly ElasticSearchService elasticSearchService;
+        private readonly DatabaseSearchService databaseSearchService;
         private readonly ISearchService searchService;
 
         public SearchController(IUserService userService, 
             IDatabaseRepository databaseRepository,
+            ElasticSearchService elasticSearchService,
+            DatabaseSearchService databaseSearchService,
             ISearchService searchService) : base(userService)
         {
             this.databaseRepository = databaseRepository;
+            this.elasticSearchService = elasticSearchService;
+            this.databaseSearchService = databaseSearchService;
             this.searchService = searchService;
         }
         
@@ -81,13 +90,21 @@ namespace Server.Controllers
                 }).ToArray());
             }).ToArray<ISearchRequestTerm>());
 
+            Stopwatch timer = new();
+            timer.Start();
+            var elasticResults = await elasticSearchService.Search(searchRequest, request.Start, 10000);// Math.Min(request.Count, 100));
+            var elastic = timer.Elapsed;
+            
+            timer.Restart();
+            var databaseResults = await databaseSearchService.Search(searchRequest, request.Start, Math.Min(request.Count, 100));
+            var db = timer.Elapsed;
+            timer.Stop();
+
             GetHeaderUser(out var user);
             var log = JsonConvert.SerializeObject(request);
-            await databaseRepository.Log(Request, $"User: {user}. Request: {log}");
-                
-            var results = await searchService.Search(searchRequest, request.Start, Math.Min(request.Count, 100));
-
-            return Ok(new SniffSearchResponse(results.Items.Select(r => new SniffModelResponse()
+            await databaseRepository.Log(Request, $"User: {user}. Elastic: {elastic} Database: {db} Request: {log}");
+            
+            return Ok(new SniffSearchResponse(elasticResults.Items.Select(r => new SniffModelResponse()
             {
                 Path   = r.Path,
                 PathInArchive = r.PathInArchive,
@@ -96,7 +113,7 @@ namespace Server.Controllers
                 SniffTime = r.StartTime,
                 Source = r.Source,
                 FileSize = r.FileSize
-            }).ToList(), (int)results.Total));
+            }).ToList(), (int)elasticResults.Total));
         }
     }
 }
