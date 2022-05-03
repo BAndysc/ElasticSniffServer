@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 using Server.Database;
 using Server.Services;
+using Server.Services.DatabaseSearch;
 using Server.Services.Elastic;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,8 +16,8 @@ builder.Services.AddDbContext<DatabaseContext>(options => options.UseMySql(conns
 builder.Services.AddTransient<IDatabaseRepository, DatabaseRepository>();
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IElasticFactory, ElasticFactory>();
-builder.Services.AddTransient<IUploadService, ElasticUploadService>();
 builder.Services.AddTransient<ISearchService, ElasticSearchService>();
+builder.Services.AddTransient<IUploadService, DatabaseUploadService>();
 builder.Services.AddTransient<IRandomService, RandomService>();
 
 builder.Services.AddControllers().AddJsonOptions(opts =>

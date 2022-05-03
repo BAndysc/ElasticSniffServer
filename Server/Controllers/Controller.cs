@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Server.Database.Models;
 using Server.Services;
 
 namespace Server.Controllers;
@@ -44,5 +45,19 @@ public abstract class Controller : ControllerBase
             return false;
 
         return await userService.VerifyUser(user, token) && await userService.IsAdmin(user);
+    }
+    
+    protected async Task<UserModel?> GetUser()
+    {
+        if (!Request.Headers.TryGetValue("x-user", out var user))
+            return null;
+        
+        if (!Request.Headers.TryGetValue("x-user-token", out var token))
+            return null;
+
+        if (!await userService.VerifyUser(user, token))
+            return null;
+        
+        return await userService.GetUser(user);
     }
 }

@@ -1,6 +1,7 @@
 using Elasticsearch.Net;
 using Nest;
 using SearchSniffServer.Models;
+using Server.Database.Models;
 using Server.Models;
 
 namespace Server.Services.Elastic;
@@ -14,7 +15,7 @@ public class ElasticUploadService : IUploadService
         client = factory.Factory();
     }
     
-    public async Task<bool> Upload(ISniff sniff)
+    public async Task<bool> Upload(UserModel uploader, ISniff sniff)
     {
         var document = new SniffElasticDocument(sniff);
 

@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using Server.Database;
+using Server.Database.Models;
 
 namespace Server.Services
 {
@@ -23,6 +24,11 @@ namespace Server.Services
                 return false;
 
             return BCrypt.Net.BCrypt.Verify(password, user.KeyHash);
+        }
+
+        public Task<UserModel?> GetUser(string username)
+        {
+            return databaseRepository.GetUser(username);
         }
 
         public async Task<bool> IsAdmin(string username)

@@ -22,7 +22,12 @@ public class UploadController : Controller
         if (!await IsAdminAuthorized())
             return BadRequest("Not authorized");
 
-        var result = await uploadService.Upload(request);
+        var user = await GetUser();
+
+        if (user == null)
+            return BadRequest("Bad user");
+        
+        var result = await uploadService.Upload(user, request);
 
         if (!result)
             return Problem("Couldn't upload the sniff");
