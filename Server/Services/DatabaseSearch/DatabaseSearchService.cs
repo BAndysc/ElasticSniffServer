@@ -135,7 +135,7 @@ public class DatabaseUploadService : IUploadService
 
     public async Task<bool> Upload(UserModel uploader, ISniff sniff)
     {
-        //await using var transaction = await databaseContext.Database.BeginTransactionAsync();
+        await using var transaction = await databaseContext.Database.BeginTransactionAsync();
 
         await databaseContext.SniffsIndex.Where(x => x.MD5 == sniff.MD5).DeleteAsync();
 
@@ -195,7 +195,7 @@ public class DatabaseUploadService : IUploadService
         await databaseContext.SniffTexts.AddRangeAsync(texts);
         
         await databaseContext.SaveChangesAsync();
-        //await transaction.CommitAsync();
+        await transaction.CommitAsync();
         return true;
     }
 }
