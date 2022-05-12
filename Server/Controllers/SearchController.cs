@@ -91,10 +91,7 @@ namespace Server.Controllers
             }).ToArray<ISearchRequestTerm>());
 
             Stopwatch timer = new();
-            timer.Start();
-            var elasticResults = await elasticSearchService.Search(searchRequest, request.Start, 10000);// Math.Min(request.Count, 100));
-            var elastic = timer.Elapsed;
-            
+
             timer.Restart();
             var databaseResults = await databaseSearchService.Search(searchRequest, request.Start, Math.Min(request.Count, 100));
             var db = timer.Elapsed;
@@ -102,9 +99,9 @@ namespace Server.Controllers
 
             GetHeaderUser(out var user);
             var log = JsonConvert.SerializeObject(request);
-            await databaseRepository.Log(Request, $"User: {user}. Elastic: {elastic} ({elasticResults.Total}) Database: {db} {databaseResults.Total} Request: {log}");
+            await databaseRepository.Log(Request, $"User: {user}. Database: {db} {databaseResults.Total} Request: {log}");
             
-            return Ok(new SniffSearchResponse(elasticResults.Items.Select(r => new SniffModelResponse()
+            return Ok(new SniffSearchResponse(databaseResults.Items.Select(r => new SniffModelResponse()
             {
                 Path   = r.Path,
                 PathInArchive = r.PathInArchive,
@@ -113,7 +110,7 @@ namespace Server.Controllers
                 SniffTime = r.StartTime,
                 Source = r.Source,
                 FileSize = r.FileSize
-            }).ToList(), (int)elasticResults.Total));
+            }).ToList(), (int)databaseResults.Total));
         }
     }
 }

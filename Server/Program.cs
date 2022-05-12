@@ -16,8 +16,8 @@ builder.Services.AddDbContext<DatabaseContext>(options => options.UseMySql(conns
 builder.Services.AddTransient<IDatabaseRepository, DatabaseRepository>();
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IElasticFactory, ElasticFactory>();
-builder.Services.AddTransient<ISearchService, ElasticSearchService>();
 builder.Services.AddTransient<IUploadService, DatabaseUploadService>();
+builder.Services.AddTransient<ISearchService, DatabaseSearchService>();
 builder.Services.AddTransient<DatabaseSearchService, DatabaseSearchService>();
 builder.Services.AddTransient<ElasticSearchService, ElasticSearchService>();
 builder.Services.AddTransient<IRandomService, RandomService>();
