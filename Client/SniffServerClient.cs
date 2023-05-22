@@ -58,4 +58,24 @@ public class SniffServerClient : ISniffServerClient
         }
     }
 
+    public async Task<bool> ContainsSniff(SniffContainsRequest request)
+    {
+        var result = await client.PostAsJsonAsync(new Uri(baseUri, "Contains"), request);
+        if (result.StatusCode != HttpStatusCode.OK)
+        {
+            throw new SearchException(result.StatusCode, await result.Content.ReadAsStringAsync());
+        }
+
+        try
+        {
+            var response  = await result.Content.ReadFromJsonAsync<SniffContainsResponse>();
+            if (response == null)
+                throw new SearchException("Invalid search response");
+            return response.ContainsSniff;
+        }
+        catch (Exception e)
+        {
+            throw new SearchException(e);
+        }
+    }
 }

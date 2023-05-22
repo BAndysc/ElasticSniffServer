@@ -19,6 +19,12 @@ public class DatabaseSearchService : ISearchService
         scope = serviceProvider.CreateScope();
         databaseContext = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
     }
+
+    public async Task<bool> ContainsMD5(string md5)
+    {
+        var count = await databaseContext.SniffsIndex.CountAsync(x => x.MD5 == md5);
+        return count > 0;
+    }
     
     public async Task<SearchResults> Search(ISniffSearchRequest request, int start, int count)
     {

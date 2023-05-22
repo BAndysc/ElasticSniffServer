@@ -8,6 +8,7 @@ public interface ISniffServerClient
     Task UploadAsync(UploadSniffRequest request);
     void Upload(UploadSniffRequest request);
     Task<SniffSearchResponse> Search(RequestSniffSearch request);
+    Task<bool> ContainsSniff(SniffContainsRequest request);
 }
 
 public class UploadException : Exception
