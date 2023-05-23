@@ -31,7 +31,7 @@ namespace Server.Controllers
             this.databaseSearchService = databaseSearchService;
             this.searchService = searchService;
         }
-        
+
         [HttpPost(Name = "Search")]
         public async Task<IActionResult> Get(RequestSniffSearch request)
         {
@@ -79,6 +79,9 @@ namespace Server.Controllers
                                     break;
                                 case "map":
                                     field = NumericField.Map;
+                                    break;
+                                case "broadcasttext":
+                                    field = NumericField.BroadcastText;
                                     break;
                                 default:
                                     throw new ArgumentOutOfRangeException("Field " + term.Field);

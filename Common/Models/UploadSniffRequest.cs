@@ -21,5 +21,7 @@ public class UploadSniffRequest : ISniff
     public IEnumerable<uint> Emotes { get; set; } = Enumerable.Empty<uint>();
     public IEnumerable<uint> Quests { get; set; } = Enumerable.Empty<uint>();
     public IEnumerable<uint> Maps { get; set; } = Enumerable.Empty<uint>();
+    public IEnumerable<uint> BroadcastTexts { get; set; } = Enumerable.Empty<uint>();
+    public IEnumerable<string> GossipTexts { get; set; } = Enumerable.Empty<string>();
     public IEnumerable<string> Texts { get; set; } = Enumerable.Empty<string>();
 }

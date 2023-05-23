@@ -28,7 +28,9 @@ public class SniffElasticDocument : ISniff
         emotes = sniff.Emotes.ToList();
         quests = sniff.Quests.ToList();
         maps = sniff.Maps.ToList();
+        broadcastTexts = sniff.BroadcastTexts.ToList();
         texts = sniff.Texts.ToList();
+        gossipTexts = sniff.GossipTexts.ToList();
     }
 
     public ulong FileSize { get; set; }
@@ -52,7 +54,9 @@ public class SniffElasticDocument : ISniff
     public List<uint> emotes { get; set; }
     public List<uint> quests { get; set; }
     public List<uint> maps { get; set; }
+    public List<uint> broadcastTexts { get; set; }
     public List<string> texts { get; set; }
+    public List<string> gossipTexts { get; set; }
     
     
     public IEnumerable<uint> Spells => spells;
@@ -65,5 +69,7 @@ public class SniffElasticDocument : ISniff
     public IEnumerable<uint> Emotes => emotes;
     public IEnumerable<uint> Quests => quests;
     public IEnumerable<uint> Maps => maps;
+    public IEnumerable<uint> BroadcastTexts => broadcastTexts;
     public IEnumerable<string> Texts => texts;
+    public IEnumerable<string> GossipTexts => gossipTexts;
 }

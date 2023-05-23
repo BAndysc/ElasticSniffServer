@@ -149,6 +149,7 @@ public class DatabaseUploadService : IUploadService
         {
             MD5 = sniff.MD5,
             Source = sniff.Source,
+            PathInArchive = sniff.PathInArchive,
             BuildVersion = (uint)sniff.BuildVersion,
             IndexedOn = sniff.IndexedOn,
             StartTime = sniff.StartTime,
@@ -193,8 +194,14 @@ public class DatabaseUploadService : IUploadService
         foreach (var f in sniff.GameObjects)
             numbers.Add(new (){SniffModel = model, Field = DatabaseNumberField.GameObject, Value = f});
 
+        foreach (var f in sniff.BroadcastTexts)
+            numbers.Add(new (){SniffModel = model, Field = DatabaseNumberField.BroadcastText, Value = f});
+        
         foreach (var f in sniff.Texts)
             texts.Add(new (){SniffModel = model, Field = DatabaseTextField.Chat, Text = f});
+        
+        foreach (var f in sniff.GossipTexts)
+            texts.Add(new (){SniffModel = model, Field = DatabaseTextField.Gossip, Text = f});
 
         await databaseContext.SniffNumbers.AddRangeAsync(numbers);
 

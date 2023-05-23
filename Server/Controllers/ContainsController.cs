@@ -15,21 +15,12 @@ namespace Server.Controllers
     [Route("[controller]")]
     public class ContainsController : Controller
     {
-        private readonly IDatabaseRepository databaseRepository;
-        private readonly ElasticSearchService elasticSearchService;
         private readonly DatabaseSearchService databaseSearchService;
-        private readonly ISearchService searchService;
 
         public ContainsController(IUserService userService, 
-            IDatabaseRepository databaseRepository,
-            ElasticSearchService elasticSearchService,
-            DatabaseSearchService databaseSearchService,
-            ISearchService searchService) : base(userService)
+            DatabaseSearchService databaseSearchService) : base(userService)
         {
-            this.databaseRepository = databaseRepository;
-            this.elasticSearchService = elasticSearchService;
             this.databaseSearchService = databaseSearchService;
-            this.searchService = searchService;
         }
         
         [HttpPost(Name = "Contains")]

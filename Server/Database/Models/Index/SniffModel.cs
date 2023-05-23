@@ -39,12 +39,14 @@ public enum DatabaseNumberField
     Sound = 6,
     Emote = 7,
     Quest = 8,
-    Map = 9
+    Map = 9,
+    BroadcastText = 10,
 }
 
 public enum DatabaseTextField
 {
-    Chat = 0
+    Chat = 0,
+    Gossip = 1
 }
 
 public class SniffNumberFieldModel

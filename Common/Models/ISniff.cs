@@ -23,6 +23,8 @@ public interface ISniff
     public IEnumerable<uint> Emotes { get; }
     public IEnumerable<uint> Quests { get; }
     public IEnumerable<uint> Maps { get; }
+    public IEnumerable<uint> BroadcastTexts { get; }
+    public IEnumerable<string> GossipTexts { get; }
     public IEnumerable<string> Texts { get; }
 }
 
@@ -49,5 +51,7 @@ public class AbstractSniff : ISniff
     public IEnumerable<uint> Emotes { get; init; }
     public IEnumerable<uint> Quests { get; init; }
     public IEnumerable<uint> Maps { get; init; }
+    public IEnumerable<uint> BroadcastTexts { get; init; }
+    public IEnumerable<string> GossipTexts { get; init;  }
     public IEnumerable<string> Texts { get; init; }
 }

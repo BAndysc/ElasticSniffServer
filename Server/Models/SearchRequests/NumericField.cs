@@ -11,5 +11,6 @@ public enum NumericField
     Sound,
     Emote,
     Quest,
-    Map
+    Map,
+    BroadcastText
 }
