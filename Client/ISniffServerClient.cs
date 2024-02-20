@@ -7,7 +7,7 @@ public interface ISniffServerClient
 {
     Task UploadAsync(UploadSniffRequest request);
     void Upload(UploadSniffRequest request);
-    Task<SniffSearchResponse> Search(RequestSniffSearch request);
+    Task<SniffSearchResponse> Search(RequestSniffSearch request, CancellationToken token);
     Task<bool> ContainsSniff(SniffContainsRequest request);
 }
 

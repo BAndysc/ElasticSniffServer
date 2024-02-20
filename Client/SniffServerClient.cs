@@ -37,17 +37,24 @@ public class SniffServerClient : ISniffServerClient
         }
     }
     
-    public async Task<SniffSearchResponse> Search(RequestSniffSearch request)
+    public async Task<SniffSearchResponse> Search(RequestSniffSearch request, CancellationToken token)
     {
-        var result = await client.PostAsJsonAsync(new Uri(baseUri, "Search"), request);
+        var result = await client.PostAsJsonAsync(new Uri(baseUri, "Search"), request, cancellationToken: token);
+        token.ThrowIfCancellationRequested();
+
         if (result.StatusCode != HttpStatusCode.OK)
         {
-            throw new SearchException(result.StatusCode, await result.Content.ReadAsStringAsync());
+            throw new SearchException(result.StatusCode, await result.Content.ReadAsStringAsync(token));
         }
+
+        token.ThrowIfCancellationRequested();
 
         try
         {
-            var response  = await result.Content.ReadFromJsonAsync<SniffSearchResponse>();
+            var response  = await result.Content.ReadFromJsonAsync<SniffSearchResponse>(cancellationToken: token);
+
+            token.ThrowIfCancellationRequested();
+
             if (response == null)
                 throw new SearchException("Invalid search response");
             return response;
